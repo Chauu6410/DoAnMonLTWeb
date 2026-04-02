@@ -1,0 +1,82 @@
+@model IEnumerable<DoAnMonLTWeb.Models.ApplicationUser>
+
+@{
+    ViewData["Title"] = "Quản lý Tài khoản (Users)";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <h1 class="mt-4">Quản lý Tài khoản</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Dashboard</a></li>
+        <li class="breadcrumb-item active">Tài khoản</li>
+    </ol>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-users me-1"></i>
+            Danh sách người dùng hệ thống
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered table-hover" id="datatablesSimple">
+                <thead>
+                    <tr>
+                        <th>Họ và tên</th>
+                        <th>Email</th>
+                        <th>Số điện thoại</th>
+                        <th>Địa chỉ</th>
+                        <th>Tuổi</th>
+                        <th>Xác thực Email?</th>
+                        <th class="text-center">Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.FullName</td>
+                            <td>@item.Email</td>
+                            <td>@item.PhoneNumber</td>
+                            <td>@item.Address</td>
+                            <td>@item.Age</td>
+                            <td class="text-center">
+                                @if (item.EmailConfirmed)
+                                {
+                                    <span class="badge bg-success">Đã xác thực</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-warning text-dark">Chưa xác thực</span>
+                                }
+                            </td>
+                            <td class="text-center">
+                                <!-- Nút xóa -->
+                                <form asp-action="Delete" asp-route-id="@item.Id" method="post" style="display:inline;" onsubmit="return confirm('CẢNH BÁO: Bạn có chắc chắn muốn xóa tài khoản này không? Hành động này không thể hoàn tác!');">
+                                    <button type="submit" class="btn btn-sm btn-danger" title="Xóa tài khoản">
+                                        <i class="fas fa-trash"></i> Xóa
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

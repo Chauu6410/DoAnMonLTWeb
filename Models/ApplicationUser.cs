@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
 namespace DoAnMonLTWeb.Models
@@ -9,5 +9,8 @@ namespace DoAnMonLTWeb.Models
         public string FullName { get; set; }
         public string? Address { get; set; }
         public string? Age { get; set; }
+
+        public string? OtpCode { get; set; }
+        public DateTime? OtpExpiryTime { get; set; }
     }
 }

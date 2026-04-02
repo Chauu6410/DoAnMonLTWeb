@@ -11,14 +11,15 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     {
-        options.SignIn.RequireConfirmedAccount = false;
+        options.SignIn.RequireConfirmedAccount = true; // Bắt buộc xác thực tài khoản
     })
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
-builder.Services.AddScoped<IEmailSender, Microsoft.AspNetCore.Identity.UI.Services.NoOpEmailSender>();
+// Đăng ký SmtpEmailSender
+builder.Services.AddScoped<IEmailSender, SmtpEmailSender>();
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>

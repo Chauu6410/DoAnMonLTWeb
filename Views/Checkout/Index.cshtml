@@ -1,53 +1,52 @@
 @model DoAnMonLTWeb.Models.Order
 
-<h2>Thanh toán</h2>
+<h2>Thanh toan</h2>
 
 <div class="row">
-
     <div class="col-md-6">
-        <form asp-action="PlaceOrder" method="post">
+        <form asp-action="PlaceOrder" asp-controller="Checkout" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-            <div class="form-group">
-                <label>H? tên</label>
-                <input asp-for="CustomerName" class="form-control" required />
+            <div class="form-group mb-3">
+                <label asp-for="CustomerName">Ho ten</label>
+                <input asp-for="CustomerName" class="form-control" />
+                <span asp-validation-for="CustomerName" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
-                <label>SÐT</label>
-                <input asp-for="Phone" class="form-control" required />
+            <div class="form-group mb-3">
+                <label asp-for="Phone">So dien thoai</label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
-                <label>Ð?a ch?</label>
-                <input asp-for="ShippingAddress" class="form-control" required />
+            <div class="form-group mb-3">
+                <label asp-for="ShippingAddress">Dia chi</label>
+                <input asp-for="ShippingAddress" class="form-control" />
+                <span asp-validation-for="ShippingAddress" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
-                <label>Ghi chú</label>
+            <div class="form-group mb-3">
+                <label asp-for="Notes">Ghi chu</label>
                 <textarea asp-for="Notes" class="form-control"></textarea>
+                <span asp-validation-for="Notes" class="text-danger"></span>
             </div>
 
-            <br />
-            <button type="submit" class="btn btn-success">
-                Ð?t hàng
-            </button>
-
+            <button type="submit" class="btn btn-success">Dat hang</button>
         </form>
     </div>
 
     <div class="col-md-6">
-        <h4>Ðon hàng</h4>
+        <h4>Don hang</h4>
 
         <table class="table">
             <thead>
                 <tr>
-                    <th>Tên</th>
+                    <th>Ten</th>
                     <th>SL</th>
-                    <th>Giá</th>
+                    <th>Gia</th>
                 </tr>
             </thead>
             <tbody>
-
                 @{
                     decimal total = 0;
                 }
@@ -64,12 +63,14 @@
                 }
 
                 <tr>
-                    <td colspan="2"><b>T?ng</b></td>
-                    <td><b>@total.ToString("N0") VNÐ</b></td>
+                    <td colspan="2"><b>Tong</b></td>
+                    <td><b>@total.ToString("N0") VND</b></td>
                 </tr>
-
             </tbody>
         </table>
     </div>
-
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

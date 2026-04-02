@@ -1,20 +1,30 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace DoAnMonLTWeb.Models
 {
     public class Order
     {
         public int Id { get; set; }
 
-        public string CustomerName { get; set; }
+        public string? UserId { get; set; }
+        public ApplicationUser? User { get; set; }
 
-        public string Phone { get; set; }
+        [Required(ErrorMessage = "Vui lòng nhập họ tên.")]
+        public string CustomerName { get; set; } = string.Empty;
 
-        public string ShippingAddress { get; set; }
+        [Required(ErrorMessage = "Vui lòng nhập số điện thoại.")]
+        public string Phone { get; set; } = string.Empty;
 
-        public string Notes { get; set; }
+        [Required(ErrorMessage = "Vui lòng nhập địa chỉ giao hàng.")]
+        public string ShippingAddress { get; set; } = string.Empty;
+
+        public string? Notes { get; set; }
 
         public DateTime OrderDate { get; set; }
 
         public string Status { get; set; } = "Pending";
+
+        public decimal TotalAmount { get; set; }
 
         public List<OrderDetail>? OrderDetails { get; set; }
     }

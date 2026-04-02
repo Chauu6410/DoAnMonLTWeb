@@ -98,20 +98,27 @@ namespace DoAnMonLTWeb.Areas.Identity.Pages.Account
                 _logger.LogInformation("User created a new account with password.");
                 await _userManager.AddToRoleAsync(user, "User");
 
-                var userId = await _userManager.GetUserIdAsync(user);
-                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                var callbackUrl = Url.Page(
-                    "/Account/ConfirmEmail",
-                    pageHandler: null,
-                    values: new { area = "Identity", userId, code, returnUrl },
-                    protocol: Request.Scheme);
+                // Tạo mã OTP 6 số
+                var random = new Random();
+                var otp = random.Next(100000, 999999).ToString();
 
-                await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                // Lưu OTP vào DB
+                user.OtpCode = otp;
+                user.OtpExpiryTime = DateTime.Now.AddMinutes(5);
+                await _userManager.UpdateAsync(user);
 
-                await _signInManager.SignInAsync(user, isPersistent: false);
-                return LocalRedirect(returnUrl);
+                // Gửi OTP qua Email
+                var subject = "Mã xác thực tài khoản - DoAnMonLTWeb";
+                var htmlMessage = $@"
+                    <h3>Xin chào {user.FullName},</h3>
+                    <p>Cảm ơn bạn đã đăng ký tài khoản. Mã OTP xác thực của bạn là:</p>
+                    <h2 style='color:blue; letter-spacing: 2px;'>{otp}</h2>
+                    <p>Mã này có hiệu lực trong vòng <strong>5 phút</strong>.</p>";
+
+                await _emailSender.SendEmailAsync(Input.Email, subject, htmlMessage);
+
+                // Chuyển hướng sang trang nhập OTP
+                return RedirectToPage("VerifyOTP", new { email = Input.Email, returnUrl = returnUrl });
             }
 
             foreach (var error in result.Errors)
