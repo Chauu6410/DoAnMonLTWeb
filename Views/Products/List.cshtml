@@ -1,0 +1,16 @@
+﻿@model IEnumerable<DoAnMonLTWeb.Models.Product>
+@{
+    ViewData["Title"] = "Danh sách sản phẩm";
+}
+
+<section class="products">
+    @foreach (var item in Model)
+    {
+        <div class="product-card">
+            <img src="https://via.placeholder.com/200x160" alt="@item.Name" />
+            <h3>@item.Name</h3>
+            <p class="price">@item.Price.ToString("N0") ₫</p>
+            <p class="rating">⭐ 4.7 | TP.HCM</p>
+        </div>
+    }
+</section>

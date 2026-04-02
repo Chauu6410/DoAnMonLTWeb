@@ -1,0 +1,36 @@
+@model IEnumerable<DoAnMonLTWeb.Models.Order>
+@{
+    ViewData["Title"] = "Quan ly don hang";
+}
+
+<h1 class="h3 mb-3">Quan ly don hang</h1>
+
+<div class="table-responsive">
+    <table class="table table-bordered bg-white">
+        <thead class="table-light">
+            <tr>
+                <th>Ma don</th>
+                <th>Khach hang</th>
+                <th>Ngay dat</th>
+                <th>San pham</th>
+                <th>Trang thai</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td>#@order.Id</td>
+                    <td>@order.CustomerName</td>
+                    <td>@order.OrderDate.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>@order.OrderDetails.Count</td>
+                    <td>@OrderStatusHelper.Normalize(order.Status)</td>
+                    <td>
+                        <a class="btn btn-sm btn-outline-primary" asp-area="Admin" asp-controller="Orders" asp-action="Details" asp-route-id="@order.Id">Chi tiet</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

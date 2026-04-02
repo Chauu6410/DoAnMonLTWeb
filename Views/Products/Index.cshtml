@@ -1,0 +1,58 @@
+﻿@model List<DoAnMonLTWeb.Models.CartItem>
+
+@{
+    ViewData["Title"] = "Giỏ hàng";
+}
+
+<h2>Giỏ hàng của bạn</h2>
+
+@if (!Model.Any())
+{
+    <p>Giỏ hàng đang trống.</p>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Ảnh</th>
+                <th>Sản phẩm</th>
+                <th>Giá</th>
+                <th>Số lượng</th>
+                <th>Tổng</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                    <td>
+                    <td>
+                        <img src="~/images/products/@item.Product.Image"
+                             style="width:70px;height:70px;object-fit:cover">
+                    </td>
+                    </td>
+                <td>@item.Product.Name</td>
+                <td>@item.Product.Price.ToString("N0") VNĐ</td>
+                <td>@item.Quantity</td>
+                <td>@(item.Product.Price * item.Quantity).ToString("N0") VNĐ</td>
+                <td>
+                        <a asp-controller="Cart"
+                           asp-action="RemoveFromCart"
+                           asp-route-id="@item.Product.Id"
+                           class="btn btn-danger btn-sm">
+
+                            Xóa
+
+                        </a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+    <div class="text-right">
+        <a asp-controller="Orders" asp-action="Create" class="btn btn-success">Đặt hàng</a>
+    </div>
+}

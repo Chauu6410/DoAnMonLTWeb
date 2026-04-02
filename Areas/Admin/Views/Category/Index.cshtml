@@ -1,0 +1,34 @@
+@model IEnumerable<DoAnMonLTWeb.Models.Category>
+@{
+    ViewData["Title"] = "Quan ly danh muc";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Quan ly danh muc</h1>
+    <a class="btn btn-primary" asp-area="Admin" asp-controller="Category" asp-action="Create">Them danh muc</a>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-bordered bg-white">
+        <thead class="table-light">
+            <tr>
+                <th>Ten danh muc</th>
+                <th>So san pham</th>
+                <th style="width: 180px;"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var category in Model)
+            {
+                <tr>
+                    <td>@category.Name</td>
+                    <td>@category.Products.Count</td>
+                    <td>
+                        <a class="btn btn-sm btn-outline-secondary" asp-area="Admin" asp-controller="Category" asp-action="Edit" asp-route-id="@category.Id">Sua</a>
+                        <a class="btn btn-sm btn-outline-danger" asp-area="Admin" asp-controller="Category" asp-action="Delete" asp-route-id="@category.Id">Xoa</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

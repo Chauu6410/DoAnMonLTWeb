@@ -1,0 +1,123 @@
+@using DoAnMonLTWeb.Models
+@using DoAnMonLTWeb.Helpers
+@{
+    var cart = Context.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? new List<CartItem>();
+    int cartCount = cart.Sum(x => x.Quantity);
+}
+@inject ApplicationDbContext _context
+
+@{
+    var categories = _context.Categories.ToList();
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Shop Linh Kiện Điện Thoại</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+</head>
+<body>
+    <div class="site-shell">
+        <header class="site-header">
+            <nav class="navbar navbar-expand-lg site-nav">
+                <div class="container">
+                    <a class="navbar-brand navbar-brand-custom" asp-area="" asp-controller="Home" asp-action="Index">
+                        <span class="brand-mark">
+                            <i class="fas fa-mobile-alt"></i>
+                        </span>
+                        <span class="brand-copy">
+                            <span class="brand-title">Shop Linh Kiện</span>
+                            <span class="brand-subtitle">Phụ kiện điện thoại chọn lọc mỗi ngày</span>
+                        </span>
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse collapse">
+                        <ul class="navbar-nav flex-grow-1 align-items-lg-center gap-lg-2">
+                            <li class="nav-item">
+                                <a class="nav-link nav-link-custom nav-pill" asp-area="" asp-controller="Home" asp-action="Index">Trang chủ</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link nav-link-custom nav-pill dropdown-toggle"
+                                   href="#"
+                                   id="categoryDropdown"
+                                   role="button"
+                                   data-bs-toggle="dropdown">
+                                    Danh mục
+                                </a>
+                                <ul class="dropdown-menu nav-dropdown">
+                                    @foreach (var c in categories)
+                                    {
+                                        <li>
+                                            <a class="dropdown-item"
+                                               asp-controller="Category"
+                                               asp-action="Products"
+                                               asp-route-id="@c.Id">
+                                                @c.Name
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+                        </ul>
+                        <div class="search-shell ms-lg-auto me-lg-3">
+                            <form asp-controller="Products"
+                                  asp-action="Search"
+                                  method="get"
+                                  class="site-search">
+                                <input class="form-control"
+                                       type="search"
+                                       name="keyword"
+                                       placeholder="Tìm sản phẩm..." />
+                                <button class="btn btn-light">
+                                    Tìm
+                                </button>
+                            </form>
+                            <a asp-controller="Cart" asp-action="Index" class="btn cart-button position-relative">
+                                <i class="fas fa-shopping-cart"></i> Giỏ hàng
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    @cartCount
+                                </span>
+                            </a>
+                        </div>
+                        <div class="site-account-links">
+                            <partial name="_LoginPartial" />
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <div class="container page-wrap">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+
+        <footer class="site-footer text-muted">
+            <div class="container py-4">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <h5 class="mb-1">&copy; 2026 - Shop Linh Kiện Điện Thoại</h5>
+                        <p class="small mb-0">Chuyên cung cấp màn hình, pin, cáp sạc và phụ kiện chính hãng.</p>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <a class="footer-link" href="#">Chính sách bảo hành</a> |
+                        <a class="footer-link" href="#">Liên hệ hỗ trợ</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

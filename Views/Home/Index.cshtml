@@ -1,0 +1,86 @@
+@model IEnumerable<DoAnMonLTWeb.Models.Product>
+
+@{
+    ViewData["Title"] = "Trang chủ";
+}
+
+<section class="hero-panel">
+    <span class="hero-badge"><i class="fas fa-bolt"></i> Hàng mới về mỗi tuần</span>
+    <div class="row align-items-center g-4">
+        <div class="col-lg-7">
+            <h1 class="hero-title">Phụ kiện điện thoại đẹp, bền và sẵn sàng giao nhanh</h1>
+            <p class="hero-text">
+                Khám phá bộ sưu tập linh kiện và phụ kiện dành cho người dùng thích sự gọn gàng, chính hãng và dễ chọn mua.
+            </p>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <strong>@Model.Count()</strong>
+                    <span>Sản phẩm nổi bật</span>
+                </div>
+                <div class="hero-stat">
+                    <strong>4.8/5</strong>
+                    <span>Đánh giá khách hàng</span>
+                </div>
+                <div class="hero-stat">
+                    <strong>24h</strong>
+                    <span>Hỗ trợ nhanh</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <img src="~/images/products/banner1.jpg" class="d-block w-100" style="height:320px;object-fit:cover;border-radius:24px;" alt="Banner phụ kiện điện thoại" />
+        </div>
+    </div>
+</section>
+
+<div class="section-head">
+    <div>
+        <h2>Sản phẩm mới nhất</h2>
+        <p>Chọn nhanh những mẫu phụ kiện đang được quan tâm nhiều nhất.</p>
+    </div>
+</div>
+
+<div class="row g-4">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-6 col-xl-3">
+            <div class="card product-card h-100">
+                <a asp-controller="Home" asp-action="Detail" asp-route-id="@item.Id">
+                    <div class="product-media">
+                        @if (item.IsSale)
+                        {
+                            <span class="product-tag"><i class="fas fa-tag"></i> Sale</span>
+                        }
+                        <img src="~/images/products/@item.Image"
+                             class="card-img-top"
+                             alt="@item.Name"
+                             onerror="this.src='https://via.placeholder.com/300x200?text=Linh+Kien+No+Image'">
+                    </div>
+                </a>
+
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a asp-controller="Home" asp-action="Detail" asp-route-id="@item.Id">
+                            @item.Name
+                        </a>
+                    </h5>
+
+                    <p class="card-text product-desc">@item.Description</p>
+
+                    <p class="card-text mb-0">
+                        <span class="price-pill">Giá: @item.Price.ToString("N0") VNĐ</span>
+                    </p>
+                </div>
+
+                <div class="card-footer text-center">
+                    <a asp-controller="Cart"
+                       asp-action="AddToCart"
+                       asp-route-id="@item.Id"
+                       class="btn btn-brand w-100">
+                        Thêm vào giỏ hàng
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

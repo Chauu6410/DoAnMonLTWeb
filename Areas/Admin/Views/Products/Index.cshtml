@@ -1,0 +1,42 @@
+@model IEnumerable<DoAnMonLTWeb.Models.Product>
+@{
+    ViewData["Title"] = "Quan ly san pham";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Quan ly san pham</h1>
+    <a class="btn btn-primary" asp-area="Admin" asp-controller="Products" asp-action="Create">Them san pham</a>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover bg-white">
+        <thead class="table-light">
+            <tr>
+                <th>Anh</th>
+                <th>Ten</th>
+                <th>Gia</th>
+                <th>Danh muc</th>
+                <th>Sale</th>
+                <th style="width: 180px;"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model)
+            {
+                <tr>
+                    <td>
+                        <img src="~/images/products/@product.Image" alt="@product.Name" style="width:64px;height:64px;object-fit:cover;border-radius:12px;" />
+                    </td>
+                    <td>@product.Name</td>
+                    <td>@product.Price.ToString("N0") VND</td>
+                    <td>@product.Category?.Name</td>
+                    <td>@(product.IsSale ? "Co" : "Khong")</td>
+                    <td>
+                        <a class="btn btn-sm btn-outline-secondary" asp-area="Admin" asp-controller="Products" asp-action="Edit" asp-route-id="@product.Id">Sua</a>
+                        <a class="btn btn-sm btn-outline-danger" asp-area="Admin" asp-controller="Products" asp-action="Delete" asp-route-id="@product.Id">Xoa</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,27 @@
+@model DoAnMonLTWeb.Models.Order
+
+@{
+    ViewData["Title"] = "Ð?t hàng";
+}
+
+<h2>Thông tin d?t hàng</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label for="CustomerName">Tên khách hàng</label>
+        <input asp-for="CustomerName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="Phone">S? di?n tho?i</label>
+        <input asp-for="Phone" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="ShippingAddress">Ð?a ch?</label>
+        <input asp-for="ShippingAddress" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="Notes">Ghi chú</label>
+        <textarea asp-for="Notes" class="form-control"></textarea>
+    </div>
+    <button type="submit" class="btn btn-success">Xác nh?n d?t hàng</button>
+</form>

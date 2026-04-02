@@ -1,0 +1,83 @@
+@model DoAnMonLTWeb.Models.Order
+@{
+    ViewData["Title"] = "Chi tiet don hang";
+    var statuses = ViewBag.AvailableStatuses as string[] ?? Array.Empty<string>();
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Don hang #@Model.Id</h1>
+    <a class="btn btn-secondary" asp-area="Admin" asp-controller="Orders" asp-action="Index">Quay lai</a>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="h5">Thong tin khach hang</h2>
+                <p class="mb-1"><strong>Ten:</strong> @Model.CustomerName</p>
+                <p class="mb-1"><strong>So dien thoai:</strong> @Model.Phone</p>
+                <p class="mb-1"><strong>Dia chi:</strong> @Model.ShippingAddress</p>
+                <p class="mb-3"><strong>Ghi chu:</strong> @Model.Notes</p>
+                <p class="mb-1"><strong>Ngay dat:</strong> @Model.OrderDate.ToString("dd/MM/yyyy HH:mm")</p>
+                <p class="mb-3"><strong>Trang thai hien tai:</strong> @OrderStatusHelper.Normalize(Model.Status)</p>
+
+                <form asp-area="Admin" asp-controller="Orders" asp-action="UpdateStatus" method="post">
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <div class="mb-3">
+                        <label class="form-label">Cap nhat trang thai</label>
+                        <select class="form-select" name="status">
+                            @foreach (var status in statuses)
+                            {
+                                if (status == OrderStatusHelper.Normalize(Model.Status))
+                                {
+                                    <option value="@status" selected>@status</option>
+                                }
+                                else
+                                {
+                                    <option value="@status">@status</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Luu trang thai</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="h5">San pham trong don</h2>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>San pham</th>
+                                <th>So luong</th>
+                                <th>Gia</th>
+                                <th>Tam tinh</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var detail in Model.OrderDetails ?? Enumerable.Empty<DoAnMonLTWeb.Models.OrderDetail>())
+                            {
+                                <tr>
+                                    <td>@detail.Product?.Name</td>
+                                    <td>@detail.Quantity</td>
+                                    <td>@detail.Price.ToString("N0") VND</td>
+                                    <td>@((detail.Quantity * detail.Price).ToString("N0")) VND</td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="3" class="text-end">Tong cong</th>
+                                <th>@((Model.OrderDetails ?? Enumerable.Empty<DoAnMonLTWeb.Models.OrderDetail>()).Sum(item => item.Quantity * item.Price).ToString("N0")) VND</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,65 @@
+﻿@model List<DoAnMonLTWeb.Models.CartItem>
+
+<h2>Giỏ hàng</h2>
+
+@if (!Model.Any())
+{
+    <p>Giỏ hàng đang trống</p>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>Hình</th>
+            <th>Sản phẩm</th>
+            <th>Giá</th>
+            <th>Số lượng</th>
+            <th>Tổng</th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <img src="~/images/products/@item.Product.Image"
+                         style="width:80px;height:80px">
+                </td>
+                <td>@item.Product.Name</td>
+
+                <td>@item.Product.Price</td>
+
+                <td>
+                    <form asp-action="UpdateQuantity" method="post">
+                        <input type="hidden" name="id" value="@item.Product.Id" />
+                        <input type="number" name="quantity" value="@item.Quantity" min="1" style="width:60px" />
+                        <button type="submit" class="btn btn-sm btn-primary">Cập nhật</button>
+                    </form>
+                </td>
+
+                <td>
+                    @(item.Product.Price * item.Quantity)
+                </td>
+
+                <td>
+                    <a asp-action="RemoveFromCart"
+                       asp-route-id="@item.Product.Id"
+                       class="btn btn-danger btn-sm">
+                        Xóa
+                    </a>
+                </td>
+            </tr>
+        }
+
+    </table>
+
+    <h3>
+        Tổng tiền: @Model.Sum(x => x.Product.Price * x.Quantity) VNĐ
+    </h3>
+
+    <a asp-controller="Checkout"
+       asp-action="Index"
+       class="btn btn-success">
+        Thanh toán
+    </a>
+}

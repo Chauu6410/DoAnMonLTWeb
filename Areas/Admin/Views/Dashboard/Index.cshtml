@@ -1,0 +1,77 @@
+@model IEnumerable<DoAnMonLTWeb.Models.Order>
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="h3 mb-1">Tong quan quan tri</h1>
+        <p class="text-muted mb-0">Khu vuc danh rieng cho tai khoan thuoc role Admin.</p>
+    </div>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div class="text-muted">San pham</div>
+                <div class="display-6">@ViewBag.ProductCount</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div class="text-muted">Danh muc</div>
+                <div class="display-6">@ViewBag.CategoryCount</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div class="text-muted">Don hang</div>
+                <div class="display-6">@ViewBag.OrderCount</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div class="text-muted">Cho xu ly</div>
+                <div class="display-6">@ViewBag.PendingOrderCount</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header">Don hang moi nhat</div>
+    <div class="table-responsive">
+        <table class="table table-striped mb-0">
+            <thead>
+                <tr>
+                    <th>Ma don</th>
+                    <th>Khach hang</th>
+                    <th>Ngay dat</th>
+                    <th>Trang thai</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in Model)
+                {
+                    <tr>
+                        <td>#@order.Id</td>
+                        <td>@order.CustomerName</td>
+                        <td>@order.OrderDate.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td>@OrderStatusHelper.Normalize(order.Status)</td>
+                        <td>
+                            <a class="btn btn-sm btn-outline-primary" asp-area="Admin" asp-controller="Orders" asp-action="Details" asp-route-id="@order.Id">Xem</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

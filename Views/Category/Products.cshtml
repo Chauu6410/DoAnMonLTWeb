@@ -1,0 +1,25 @@
+﻿@model List<DoAnMonLTWeb.Models.Product>
+
+<h2>Sản phẩm theo danh mục</h2>
+
+<div class="row">
+
+    @foreach (var item in Model)
+    {
+        <div class="col-md-3 mb-4">
+            <div class="card h-100 shadow-sm">
+                <img src="~/images/products/@item.Image"
+                     class="card-img-top"
+                     alt="@item.Name"
+                     style="height:200px;object-fit:cover;" />
+                <div class="card-body text-center">
+                    <h5 class="card-title">@item.Name</h5>
+                    <p class="text-danger fw-bold">@item.Price.ToString("N0") VNĐ</p>
+                    <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@item.Id"
+                       class="btn btn-primary">Thêm vào giỏ</a>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>

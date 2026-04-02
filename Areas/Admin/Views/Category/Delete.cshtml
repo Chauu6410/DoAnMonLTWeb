@@ -1,0 +1,21 @@
+@model DoAnMonLTWeb.Models.Category
+@{
+    ViewData["Title"] = "Xoa danh muc";
+}
+
+<h1 class="h3 mb-3">Xoa danh muc</h1>
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<p class="text-muted">Ban chi co the xoa danh muc khi khong con san pham nao thuoc danh muc nay.</p>
+
+<dl class="row bg-white p-3 rounded shadow-sm">
+    <dt class="col-sm-3">Ten</dt>
+    <dd class="col-sm-9">@Model.Name</dd>
+    <dt class="col-sm-3">So san pham</dt>
+    <dd class="col-sm-9">@Model.Products.Count</dd>
+</dl>
+
+<form method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Xoa</button>
+    <a class="btn btn-secondary" asp-area="Admin" asp-controller="Category" asp-action="Index">Huy</a>
+</form>

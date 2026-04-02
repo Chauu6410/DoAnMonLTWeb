@@ -1,0 +1,20 @@
+﻿@model List<DoAnMonLTWeb.Models.Category>
+
+<h2>Danh mục sản phẩm</h2>
+
+<ul class="list-group">
+
+    @foreach (var item in Model)
+    {
+        <li class="list-group-item">
+            <a asp-controller="Category"
+               asp-action="Products"
+               asp-route-id="@item.Id">
+
+                @item.Name
+
+            </a>
+        </li>
+    }
+
+</ul>

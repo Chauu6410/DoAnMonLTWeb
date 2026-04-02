@@ -1,0 +1,21 @@
+@model DoAnMonLTWeb.Models.Category
+@{
+    ViewData["Title"] = "Them danh muc";
+}
+
+<h1 class="h3 mb-3">Them danh muc</h1>
+
+<form method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Luu</button>
+    <a class="btn btn-secondary" asp-area="Admin" asp-controller="Category" asp-action="Index">Quay lai</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

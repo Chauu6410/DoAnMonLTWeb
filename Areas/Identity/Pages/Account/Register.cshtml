@@ -1,0 +1,59 @@
+@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="auth-shell">
+    <div class="auth-card row g-0">
+        <div class="col-lg-5">
+            <div class="auth-side d-flex flex-column justify-content-between">
+                <div>
+                    <div class="hero-badge bg-white text-dark"><i class="fas fa-user-plus"></i> Tạo tài khoản mới</div>
+                    <h1 class="hero-title fs-2 text-white">Đăng ký để mua sắm nhanh hơn</h1>
+                    <p class="mb-0 text-white-50">Lưu lịch sử đơn hàng, theo dõi giỏ hàng và truy cập khu mua sắm tiện lợi chỉ với vài bước.</p>
+                </div>
+                <div class="mt-4">
+                    <p class="mb-2 fw-semibold">Lợi ích khi có tài khoản</p>
+                    <p class="mb-1 text-white-50">Theo dõi đơn hàng dễ hơn</p>
+                    <p class="mb-1 text-white-50">Mua lại sản phẩm nhanh hơn</p>
+                    <p class="mb-0 text-white-50">Quản lý thông tin đăng nhập an toàn</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-7">
+            <div class="auth-form">
+                <h2 class="mb-2">Tạo tài khoản</h2>
+                <p class="text-muted mb-4">Điền thông tin cơ bản để bắt đầu.</p>
+                <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
+                    <div class="mb-3">
+                        <label asp-for="Input.FullName" class="form-label"></label>
+                        <input asp-for="Input.FullName" class="form-control" aria-required="true" placeholder="Nguyen Van A" />
+                        <span asp-validation-for="Input.FullName" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Input.Email" class="form-label"></label>
+                        <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                        <span asp-validation-for="Input.Email" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Input.Password" class="form-label"></label>
+                        <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    </div>
+                    <div class="mb-4">
+                        <label asp-for="Input.ConfirmPassword" class="form-label"></label>
+                        <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                    </div>
+                    <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Đăng ký</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
