@@ -1,9 +1,23 @@
-@model IEnumerable<DoAnMonLTWeb.Models.Order>
+﻿@model IEnumerable<DoAnMonLTWeb.Models.Order>
 @{
     ViewData["Title"] = "Don hang cua toi";
 }
 
 <section class="container py-4">
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h1 class="h3 mb-1">Don hang cua toi</h1>
@@ -49,7 +63,15 @@
                                 <td><span class="badge bg-warning text-dark">@OrderStatusHelper.Normalize(order.Status)</span></td>
                                 <td>@order.OrderDate.AddDays(3).ToString("dd/MM/yyyy")</td>
                                 <td>
-                                    <a asp-controller="Orders" asp-action="MyOrderDetails" asp-route-id="@order.Id" class="btn btn-sm btn-outline-primary">Xem chi tiet</a>
+                                    <div class="d-flex gap-2">
+                                        <a asp-controller="Orders" asp-action="MyOrderDetails" asp-route-id="@order.Id" class="btn btn-sm btn-outline-primary">Xem chi tiet</a>
+                                        @if (order.Status == DoAnMonLTWeb.Models.OrderStatusHelper.ChoXuLy)
+                                        {
+                                            <form asp-controller="Orders" asp-action="CancelOrder" asp-route-id="@order.Id" method="post" style="display:inline;" onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này không?');">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger">Hủy đơn</button>
+                                            </form>
+                                        }
+                                    </div>
                                 </td>
                             </tr>
                         }

@@ -1,4 +1,4 @@
-using DoAnMonLTWeb.Helpers;
+﻿using DoAnMonLTWeb.Helpers;
 using DoAnMonLTWeb.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -30,7 +30,7 @@ namespace DoAnMonLTWeb.Controllers
             var cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>(CartSessionKey);
             if (cart == null || !cart.Any())
             {
-                ModelState.AddModelError("", "Gi? h�ng tr?ng, kh�ng th? d?t h�ng.");
+                ModelState.AddModelError("", "Gi? hàng tr?ng, không th? d?t hàng.");
                 return View(order);
             }
 
@@ -111,6 +111,46 @@ namespace DoAnMonLTWeb.Controllers
             }
 
             return View(order);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CancelOrder(int id)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Challenge();
+            }
+
+            var fullName = user.FullName?.Trim();
+            if (string.IsNullOrEmpty(fullName))
+            {
+                return NotFound();
+            }
+
+            var order = await _context.Orders
+                .FirstOrDefaultAsync(o => o.Id == id && o.CustomerName == fullName);
+
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            if (order.Status == OrderStatusHelper.ChoXuLy)
+            {
+                order.Status = OrderStatusHelper.DaHuy;
+                _context.Update(order);
+                await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Hủy đơn hàng thành công.";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Không thể hủy đơn hàng này vì đang được xử lý hoặc đã hoàn thành.";
+            }
+
+            return RedirectToAction(nameof(MyOrders));
         }
     }
 }
