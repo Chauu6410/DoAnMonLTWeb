@@ -1,4 +1,4 @@
-:root {
+﻿:root {
     --brand-900: #7a2e0f;
     --brand-700: #c84f1d;
     --brand-500: #f06a2f;
@@ -457,4 +457,81 @@ a {
     .auth-side {
         padding: 1.4rem;
     }
+}
+
+.site-account-links {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    white-space: nowrap;
+}
+
+.navbar-nav {
+    white-space: nowrap;
+}
+
+.nav-link {
+    display: inline-block;
+}
+
+.cart-button {
+    white-space: nowrap;
+}
+
+.navbar-menu {
+    display: flex;
+    align-items: center; /* QUAN TRỌNG */
+    gap: 20px;
+}
+
+.cart-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px; /* giảm lại cho bằng nav */
+    font-size: 14px;
+    border-radius: 20px;
+    background: linear-gradient(45deg, #f7b733, #fc4a1a);
+    color: white;
+    height: 36px; /* FIX CHIỀU CAO */
+}
+
+.nav-link {
+    display: inline-flex;
+    align-items: center;
+    height: 36px; /* cùng chiều cao */
+}
+
+.cart-badge {
+    background: red;
+    color: white;
+    font-size: 12px;
+    border-radius: 50%;
+    padding: 2px 6px;
+    position: absolute;
+    top: -5px;
+    right: -8px;
+}
+
+.site-header * {
+    white-space: nowrap;
+}
+
+.search-shell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: nowrap; /* đổi từ wrap -> nowrap */
+}
+
+.site-account-links {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px;
+}
+
+.navbar-menu {
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }

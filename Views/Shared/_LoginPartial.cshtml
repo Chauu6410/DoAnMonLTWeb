@@ -1,4 +1,4 @@
-@using DoAnMonLTWeb.Models
+﻿@using DoAnMonLTWeb.Models
 @using Microsoft.AspNetCore.Identity
 
 @inject SignInManager<ApplicationUser> SignInManager
@@ -14,7 +14,7 @@
         </li>
     }
     <li class="nav-item">
-        <a class="nav-link text-dark" asp-controller="Orders" asp-action="MyOrders">Don hang cua toi</a>
+        <a class="nav-link text-dark" asp-controller="Orders" asp-action="MyOrders">Đơn Hàng</a>
     </li>
     <li class="nav-item">
         <span class="nav-link text-dark">Hello @UserManager.GetUserName(User)!</span>

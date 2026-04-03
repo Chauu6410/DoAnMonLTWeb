@@ -1,5 +1,5 @@
-@{
-    ViewData["Title"] = "Dat hang thanh cong";
+﻿@{
+    ViewData["Title"] = "Đặt hàng thành công";
     var orderId = TempData["LastOrderId"];
     var expectedDelivery = DateTime.Now.AddDays(3);
 }
@@ -7,22 +7,22 @@
 <div class="container py-5">
     <div class="card shadow-sm border-0 mx-auto" style="max-width: 720px;">
         <div class="card-body p-4 p-md-5 text-center">
-            <h1 class="h3 text-success mb-3">Dat hang thanh cong</h1>
-            <p class="text-muted mb-3">Don hang cua ban da duoc ghi nhan va dang cho xu ly.</p>
+            <h1 class="h3 text-success mb-3">Đặt hàng thành công</h1>
+            <p class="text-muted mb-3">Đơn hàng của bạn đã được ghi nhận và đang chờ xử lý.</p>
 
             @if (orderId != null)
             {
-                <p class="mb-2"><strong>Ma don hang:</strong> #@orderId</p>
+                <p class="mb-2"><strong>Mã đơn hàng:</strong> #@orderId</p>
             }
 
             <p class="mb-4">
-                <strong>Trang thai:</strong> @DoAnMonLTWeb.Models.OrderStatusHelper.ChoXuLy<br />
-                <strong>Hen giao du kien:</strong> @expectedDelivery.ToString("dd/MM/yyyy")
+                <strong>Trạng thái:</strong> @DoAnMonLTWeb.Models.OrderStatusHelper.ChoXuLy<br />
+                <strong>Hẹn giao dự kiến:</strong> @expectedDelivery.ToString("dd/MM/yyyy")
             </p>
 
             <div class="d-flex justify-content-center gap-2 flex-wrap">
-                <a asp-controller="Orders" asp-action="MyOrders" class="btn btn-primary">Xem don hang cua toi</a>
-                <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">Tiep tuc mua sam</a>
+                <a asp-controller="Orders" asp-action="MyOrders" class="btn btn-primary">Xem đơn hàng của tôi</a>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">Tiếp tục mua sắm</a>
             </div>
         </div>
     </div>

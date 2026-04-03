@@ -1,14 +1,14 @@
 ﻿@model DoAnMonLTWeb.Models.Order
 @{
-    ViewData["Title"] = "Chi tiet don hang";
+    ViewData["Title"] = "Chi tiết đơn hàng";
     var orderItems = Model.OrderDetails ?? Enumerable.Empty<DoAnMonLTWeb.Models.OrderDetail>();
 }
 
 <section class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h1 class="h3 mb-1">Chi tiet don hang #@Model.Id</h1>
-            <p class="text-muted mb-0">Theo doi tinh trang xu ly va thong tin giao hang cua don.</p>
+            <h1 class="h3 mb-1">Chi tiết đơn hàng #@Model.Id</h1>
+            <p class="text-muted mb-0">Theo dõi tình trạng xử lý và thông tin giao hàng của đơn.</p>
         </div>
         <div>
             @if (Model.Status == DoAnMonLTWeb.Models.OrderStatusHelper.ChoXuLy)
@@ -17,7 +17,7 @@
                     <button type="submit" class="btn btn-outline-danger">Hủy đơn</button>
                 </form>
             }
-            <a asp-controller="Orders" asp-action="MyOrders" class="btn btn-outline-secondary">Quay lai</a>
+            <a asp-controller="Orders" asp-action="MyOrders" class="btn btn-outline-secondary">Quay lại</a>
         </div>
     </div>
 
@@ -25,14 +25,14 @@
         <div class="col-lg-4">
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-body">
-                    <h2 class="h5 mb-3">Thong tin don hang</h2>
-                    <p class="mb-2"><strong>Khach hang:</strong> @Model.CustomerName</p>
-                    <p class="mb-2"><strong>So dien thoai:</strong> @Model.Phone</p>
-                    <p class="mb-2"><strong>Dia chi giao:</strong> @Model.ShippingAddress</p>
-                    <p class="mb-2"><strong>Ghi chu:</strong> @(string.IsNullOrWhiteSpace(Model.Notes) ? "Khong co" : Model.Notes)</p>
-                    <p class="mb-2"><strong>Ngay dat:</strong> @Model.OrderDate.ToString("dd/MM/yyyy HH:mm")</p>
-                    <p class="mb-2"><strong>Trang thai:</strong> @OrderStatusHelper.Normalize(Model.Status)</p>
-                    <p class="mb-0"><strong>Hen giao du kien:</strong> @Model.OrderDate.AddDays(3).ToString("dd/MM/yyyy")</p>
+                    <h2 class="h5 mb-3">Thông tin đơn hàng</h2>
+                    <p class="mb-2"><strong>Khách hàng:</strong> @Model.CustomerName</p>
+                    <p class="mb-2"><strong>Số điện thoại:</strong> @Model.Phone</p>
+                    <p class="mb-2"><strong>Địa chỉ giao:</strong> @Model.ShippingAddress</p>
+                    <p class="mb-2"><strong>Ghi chú:</strong> @(string.IsNullOrWhiteSpace(Model.Notes) ? "Khong co" : Model.Notes)</p>
+                    <p class="mb-2"><strong>Ngày đặt hàng:</strong> @Model.OrderDate.ToString("dd/MM/yyyy HH:mm")</p>
+                    <p class="mb-2"><strong>Trạng thái:</strong> @OrderStatusHelper.Normalize(Model.Status)</p>
+                    <p class="mb-0"><strong>Hẹn giao dự kiến:</strong> @Model.OrderDate.AddDays(3).ToString("dd/MM/yyyy")</p>
                 </div>
             </div>
         </div>
@@ -40,7 +40,7 @@
         <div class="col-lg-8">
             <div class="card shadow-sm border-0">
                 <div class="card-body">
-                    <h2 class="h5 mb-3">San pham da dat</h2>
+                    <h2 class="h5 mb-3">Sản phẩm đã đặt</h2>
                     <div class="table-responsive">
                         <table class="table align-middle mb-0">
                             <thead class="table-light">

@@ -27,7 +27,8 @@ else
                 </td>
                 <td>@item.Product.Name</td>
 
-                <td>@item.Product.Price</td>
+                <td>
+                <td>@item.Product.Price.ToString("N0") VNĐ</td></td>
 
                 <td>
                     <form asp-action="UpdateQuantity" method="post">
@@ -38,7 +39,7 @@ else
                 </td>
 
                 <td>
-                    @(item.Product.Price * item.Quantity)
+                    @((item.Product.Price * item.Quantity).ToString("N0")) VNĐ
                 </td>
 
                 <td>
@@ -54,7 +55,10 @@ else
     </table>
 
     <h3>
-        Tổng tiền: @Model.Sum(x => x.Product.Price * x.Quantity) VNĐ
+        Tổng tiền:
+        <span style="color:red; font-weight:bold; font-size:20px;">
+            @Model.Sum(x => x.Product.Price * x.Quantity).ToString("N0") VNĐ
+        </span>
     </h3>
 
     <a asp-controller="Checkout"

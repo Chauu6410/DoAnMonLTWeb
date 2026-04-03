@@ -1,6 +1,6 @@
-@model DoAnMonLTWeb.Models.Order
+﻿@model DoAnMonLTWeb.Models.Order
 
-<h2>Thanh toan</h2>
+<h2>Thanh toán</h2>
 
 <div class="row">
     <div class="col-md-6">
@@ -8,42 +8,43 @@
             <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
             <div class="form-group mb-3">
-                <label asp-for="CustomerName">Ho ten</label>
+                <label asp-for="CustomerName">Họ Tên</label>
                 <input asp-for="CustomerName" class="form-control" />
                 <span asp-validation-for="CustomerName" class="text-danger"></span>
             </div>
 
             <div class="form-group mb-3">
-                <label asp-for="Phone">So dien thoai</label>
+                <label asp-for="Phone">Số Điện Thoại</label>
                 <input asp-for="Phone" class="form-control" />
                 <span asp-validation-for="Phone" class="text-danger"></span>
             </div>
 
             <div class="form-group mb-3">
-                <label asp-for="ShippingAddress">Dia chi</label>
+                <label asp-for="ShippingAddress">Địa Chỉ</label>
                 <input asp-for="ShippingAddress" class="form-control" />
                 <span asp-validation-for="ShippingAddress" class="text-danger"></span>
             </div>
 
             <div class="form-group mb-3">
-                <label asp-for="Notes">Ghi chu</label>
+                <label asp-for="Notes">Ghi Chú</label>
                 <textarea asp-for="Notes" class="form-control"></textarea>
                 <span asp-validation-for="Notes" class="text-danger"></span>
             </div>
 
-            <button type="submit" class="btn btn-success">Dat hang</button>
+            <button type="submit" class="btn btn-success">Đặt Hàng</button>
         </form>
     </div>
 
     <div class="col-md-6">
-        <h4>Don hang</h4>
+        <h4>Đơn Hàng</h4>
 
         <table class="table">
             <thead>
                 <tr>
-                    <th>Ten</th>
+                    <th>Hình</th>
+                    <th>Sản phẩm</th>
                     <th>SL</th>
-                    <th>Gia</th>
+                    <th>Giá</th>
                 </tr>
             </thead>
             <tbody>
@@ -56,14 +57,25 @@
                     total += item.Quantity * item.Product.Price;
 
                     <tr>
+                        <!-- THÊM ẢNH -->
+                        <td>
+                            <img src="~/images/products/@item.Product.Image"
+                                 style="width:60px;height:60px;">
+                        </td>
+
                         <td>@item.Product.Name</td>
                         <td>@item.Quantity</td>
-                        <td>@item.Product.Price.ToString("N0")</td>
+
+                        <!-- FORMAT GIÁ -->
+                        <td>
+                            @item.Product.Price.ToString("N0") VNĐ
+                        </td>
+
                     </tr>
                 }
 
                 <tr>
-                    <td colspan="2"><b>Tong</b></td>
+                    <td colspan="2"><b>Tổng</b></td>
                     <td><b>@total.ToString("N0") VND</b></td>
                 </tr>
             </tbody>
