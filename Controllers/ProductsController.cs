@@ -96,10 +96,17 @@ namespace DoAnMonLTWeb.Controllers
         {
             return RedirectToAction("Delete", "Products", new { area = "Admin", id });
         }
-        public IActionResult Search(string keyword)
+        public IActionResult Search(string? keyword)
         {
+            if (string.IsNullOrWhiteSpace(keyword))
+            {
+                return View(new List<Product>());
+            }
+
+            var normalizedKeyword = keyword.Trim();
+
             var products = _context.Products
-                .Where(p => p.Name.Contains(keyword))
+                .Where(p => p.Name.Contains(normalizedKeyword))
                 .ToList();
 
             return View(products);

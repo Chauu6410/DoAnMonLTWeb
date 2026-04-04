@@ -23,9 +23,9 @@
 
                     <h5>@item.Name</h5>
 
-                    <p>@item.Price VNĐ</p>
+                    <p>@item.Price.ToString("N0") VNĐ</p>
 
-                    <a asp-controller="Products"
+                    <a asp-controller="Cart"
                        asp-action="AddToCart"
                        asp-route-id="@item.Id"
                        class="btn btn-primary">
