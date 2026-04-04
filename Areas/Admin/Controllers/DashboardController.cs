@@ -15,7 +15,7 @@ namespace DoAnMonLTWeb.Areas.Admin.Controllers
         {
             _context = context;
         }
-
+        //bang dieu khien hien thi thong tin tong quan ve san pham, danh muc, don hang
         public async Task<IActionResult> Index()
         {
             ViewBag.ProductCount = await _context.Products.CountAsync();
