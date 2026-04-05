@@ -15,6 +15,7 @@
                 <th>Anh</th>
                 <th>Ten</th>
                 <th>Gia</th>
+                <th>Ton kho</th>
                 <th>Danh muc</th>
                 <th>Sale</th>
                 <th style="width: 180px;"></th>
@@ -29,6 +30,7 @@
                     </td>
                     <td>@product.Name</td>
                     <td>@product.Price.ToString("N0") VND</td>
+                    <td>@product.Stock</td>
                     <td>@product.Category?.Name</td>
                     <td>@(product.IsSale ? "Co" : "Khong")</td>
                     <td>

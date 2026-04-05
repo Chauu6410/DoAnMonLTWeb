@@ -18,6 +18,11 @@
         <span asp-validation-for="Price" class="text-danger"></span>
     </div>
     <div class="mb-3">
+        <label asp-for="Stock" class="form-label">So luong ton</label>
+        <input asp-for="Stock" class="form-control" min="0" />
+        <span asp-validation-for="Stock" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
         <label class="form-label">Hinh anh san pham</label>
         <input type="file" name="imageFile" class="form-control" accept="image/*" />
         <span asp-validation-for="Image" class="text-danger"></span>

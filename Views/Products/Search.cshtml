@@ -25,14 +25,21 @@
 
                     <p>@item.Price.ToString("N0") VNĐ</p>
 
-                    <a asp-controller="Cart"
-                       asp-action="AddToCart"
-                       asp-route-id="@item.Id"
-                       class="btn btn-primary">
+                    <p class="text-muted mb-3">Ton kho: @item.Stock</p>
 
-                        Thêm vào giỏ
-
-                    </a>
+                    @if (item.Stock > 0)
+                    {
+                        <a asp-controller="Cart"
+                           asp-action="AddToCart"
+                           asp-route-id="@item.Id"
+                           class="btn btn-primary">
+                            Thêm vào giỏ
+                        </a>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-secondary" disabled>Hết hàng</button>
+                    }
 
                 </div>
 

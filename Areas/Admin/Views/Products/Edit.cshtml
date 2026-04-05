@@ -20,6 +20,11 @@
         <span asp-validation-for="Price" class="text-danger"></span>
     </div>
     <div class="mb-3">
+        <label asp-for="Stock" class="form-label">So luong ton</label>
+        <input asp-for="Stock" class="form-control" min="0" />
+        <span asp-validation-for="Stock" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
         <label class="form-label">Hinh anh hien tai</label>
         <div class="mb-2">
             <img src="~/images/products/@Model.Image" alt="@Model.Name" style="max-width: 180px; border-radius: 12px;" />

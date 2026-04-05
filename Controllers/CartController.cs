@@ -27,11 +27,25 @@ namespace DoAnMonLTWeb.Controllers
             var product = _context.Products.FirstOrDefault(p => p.Id == id);
             if (product == null) return NotFound();
 
+            if (product.Stock <= 0)
+            {
+                TempData["ErrorMessage"] = $"San pham '{product.Name}' da het hang.";
+                var referer = Request.Headers["Referer"].ToString();
+                return !string.IsNullOrWhiteSpace(referer) ? Redirect(referer) : RedirectToAction("Index");
+            }
+
             var cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>(CartSessionKey) ?? new List<CartItem>();
 
             var item = cart.FirstOrDefault(c => c.Product.Id == id);
             if (item != null)
             {
+                if (item.Quantity >= product.Stock)
+                {
+                    TempData["ErrorMessage"] = $"San pham '{product.Name}' chi con {product.Stock} sp trong kho.";
+                    var referer = Request.Headers["Referer"].ToString();
+                    return !string.IsNullOrWhiteSpace(referer) ? Redirect(referer) : RedirectToAction("Index");
+                }
+
                 item.Quantity++;
             }
             else
@@ -66,7 +80,21 @@ namespace DoAnMonLTWeb.Controllers
             {
                 if (quantity > 0)
                 {
-                    item.Quantity = quantity;
+                    var product = _context.Products.FirstOrDefault(p => p.Id == id);
+                    if (product == null)
+                    {
+                        return NotFound();
+                    }
+
+                    if (quantity > product.Stock)
+                    {
+                        TempData["ErrorMessage"] = $"So luong yeu cau vuot qua ton kho. San pham '{product.Name}' chi con {product.Stock} sp.";
+                        item.Quantity = product.Stock > 0 ? product.Stock : 1;
+                    }
+                    else
+                    {
+                        item.Quantity = quantity;
+                    }
                 }
                 else
                 {
@@ -76,7 +104,7 @@ namespace DoAnMonLTWeb.Controllers
 
             HttpContext.Session.SetObjectAsJson(CartSessionKey, cart);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index");
         }
 
     }

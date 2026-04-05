@@ -37,7 +37,7 @@ namespace DoAnMonLTWeb.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Price,Image,Description,IsSale,CategoryId")] Product product, IFormFile? imageFile)
+        public async Task<IActionResult> Create([Bind("Id,Name,Price,Image,Description,IsSale,Stock,CategoryId")] Product product, IFormFile? imageFile)
         {
             if (imageFile == null || imageFile.Length == 0)
             {
@@ -76,7 +76,7 @@ namespace DoAnMonLTWeb.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Image,Description,IsSale,CategoryId")] Product product, IFormFile? imageFile)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Image,Description,IsSale,Stock,CategoryId")] Product product, IFormFile? imageFile)
         {
             if (id != product.Id)
             {

@@ -2,6 +2,7 @@ using DoAnMonLTWeb.Helpers;
 using DoAnMonLTWeb.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DoAnMonLTWeb.Controllers
 {
@@ -26,7 +27,6 @@ namespace DoAnMonLTWeb.Controllers
 
             var order = new Order();
             var currentUser = await _userManager.GetUserAsync(User);
-            // Gán sẵn thông tin khách hàng nếu đã đăng nhập
             if (currentUser != null)
             {
                 order.CustomerName = currentUser.FullName;
@@ -43,7 +43,6 @@ namespace DoAnMonLTWeb.Controllers
         public async Task<IActionResult> PlaceOrder(Order order)
         {
             var cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart");
-            // Sửa lại: Nếu lỗi session (giỏ hàng trống), redirect thẳng ra trang giỏ hàng
             if (cart == null || !cart.Any())
             {
                 return RedirectToAction("Index", "Cart");
@@ -55,32 +54,52 @@ namespace DoAnMonLTWeb.Controllers
                 return View("Index", order);
             }
 
+            foreach (var cartItem in cart)
+            {
+                var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == cartItem.Product.Id);
+                if (product == null)
+                {
+                    ModelState.AddModelError(string.Empty, $"Khong tim thay san pham co ID {cartItem.Product.Id}.");
+                    ViewBag.Cart = cart;
+                    return View("Index", order);
+                }
+
+                if (product.Stock < cartItem.Quantity)
+                {
+                    ModelState.AddModelError(string.Empty, $"San pham '{product.Name}' chi con {product.Stock} sp trong kho.");
+                    ViewBag.Cart = cart;
+                    return View("Index", order);
+                }
+            }
+
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser != null)
             {
-                order.UserId = currentUser.Id; // Liên kết đơn hàng với tài khoản (Nên có UserId trong Model Order)
+                order.UserId = currentUser.Id;
             }
 
             order.OrderDate = DateTime.Now;
             order.Status = OrderStatusHelper.ChoXuLy;
             order.Notes ??= string.Empty;
-            
-            // Tính tổng giá trị đơn hàng
             order.TotalAmount = cart.Sum(item => item.Product.Price * item.Quantity);
 
-            // Gán list chi tiết đơn hàng trực tiếp để EF Core tự tạo Transaction 1 lần SaveChanges
             order.OrderDetails = cart.Select(item => new OrderDetail
             {
                 ProductId = item.Product.Id,
                 Quantity = item.Quantity,
-                Price = item.Product.Price 
+                Price = item.Product.Price
             }).ToList();
 
+            foreach (var cartItem in cart)
+            {
+                var product = await _context.Products.FirstAsync(p => p.Id == cartItem.Product.Id);
+                product.Stock -= cartItem.Quantity;
+            }
+
             _context.Orders.Add(order);
-            await _context.SaveChangesAsync(); // Lưu 1 lần duy nhất
+            await _context.SaveChangesAsync();
 
             TempData["LastOrderId"] = order.Id;
-
             HttpContext.Session.Remove("Cart");
             return RedirectToAction(nameof(Success));
         }

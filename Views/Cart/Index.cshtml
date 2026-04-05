@@ -2,6 +2,11 @@
 
 <h2>Giỏ hàng</h2>
 
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+
 @if (!Model.Any())
 {
     <p>Giỏ hàng đang trống</p>
@@ -34,9 +39,10 @@ else
                         <td>
                             <form asp-action="UpdateQuantity" method="post" class="d-flex align-items-center gap-2 flex-wrap">
                                 <input type="hidden" name="id" value="@item.Product.Id" />
-                                <input type="number" name="quantity" value="@item.Quantity" min="1" class="form-control form-control-sm" style="width:80px" />
+                                <input type="number" name="quantity" value="@item.Quantity" min="1" max="@item.Product.Stock" class="form-control form-control-sm" style="width:80px" />
                                 <button type="submit" class="btn btn-sm btn-primary">Cập nhật</button>
                             </form>
+                            <small class="text-muted">Ton kho: @item.Product.Stock</small>
                         </td>
                         <td>@((item.Product.Price * item.Quantity).ToString("N0")) VNĐ</td>
                         <td class="text-end">

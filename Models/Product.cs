@@ -17,6 +17,9 @@ namespace DoAnMonLTWeb.Models
 
         public bool IsSale { get; set; }
 
+        [Range(0, int.MaxValue, ErrorMessage = "So luong ton khong duoc am.")]
+        public int Stock { get; set; }
+
         public int CategoryId { get; set; }
 
         public Category? Category { get; set; }

@@ -57,6 +57,17 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     await IdentitySeeder.SeedRolesAndAdminAsync(services, builder.Configuration);
+
+    var dbContext = services.GetRequiredService<ApplicationDbContext>();
+    try
+    {
+        await dbContext.Database.ExecuteSqlRawAsync(
+            "IF COL_LENGTH('Products', 'Stock') IS NOT NULL UPDATE Products SET Stock = 0 WHERE Stock IS NULL");
+    }
+    catch
+    {
+        // Bo qua de ung dung van khoi dong duoc ngay ca khi database chua cap nhat schema Stock.
+    }
 }
 
 app.Run();
